@@ -1,0 +1,1 @@
+../../massa-docs/index.rst
