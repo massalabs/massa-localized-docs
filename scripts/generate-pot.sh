@@ -38,7 +38,7 @@ if [ ! -d $POT_DIR ]; then
 else
     rm -fr ./massa-docs/_build/
     mkdir -p ./massa-docs/_build/gettext/
-    cp -r ./$POT_DIR/ ./massa-docs/_build/gettext
+    cp -r ./$POT_DIR/* ./massa-docs/_build/gettext
 fi
 
 cd massa-docs
@@ -47,6 +47,6 @@ cd massa-docs
 sphinx-build -c .. -b gettext . _build/gettext || fatal "Failed to generate POT file"
 
 # Move POT file to the root of the repository
-cp -fr ./_build/gettext/ ../$POT_DIR/
+cp -fr ./_build/gettext/* ../$POT_DIR/
 
 success "POT file generated."
