@@ -1,1 +1,0 @@
-../../massa-docs/make.bat
