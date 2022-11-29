@@ -2,7 +2,7 @@
 
 # This script generates a POT file for all the Massa documentation.
 
-MASSA_DOCS_REPO_URL="git@github.com:massalabs/massa-docs.git"
+MASSA_DOCS_REPO_URL="https://github.com/massalabs/massa-docs.git"
 POT_DIR="pot"
 
 debug () {
