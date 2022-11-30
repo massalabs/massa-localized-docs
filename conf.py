@@ -35,4 +35,3 @@ gettext_compact = False
 # - Calculate similarity between new msgids and previously saved old msgids.
 #   This calculation takes a long time.
 gettext_uuid = True
-

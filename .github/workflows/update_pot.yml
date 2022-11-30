@@ -1,9 +1,8 @@
 name: Update POT
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "0 0 * * *"
   workflow_dispatch:
-  pull_request:
 
 jobs:
   release:
@@ -16,14 +15,8 @@ jobs:
       - name: Update POT
         run: |
           ./scripts/generate-pot.sh
-      - name: Set git user
-        run: |
-          git config --local user.email "massalabs@noreply.github.com"
-          git config --local user.name "MassaLabs"
-      - name: Commit
-        run: |
-          git add ./pot
-          git commit -m "Update POT"
-      - name: Push
-        run: |
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      - name: Push updated POT
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: '[CI] Update POT'
+          add: './pot/'
