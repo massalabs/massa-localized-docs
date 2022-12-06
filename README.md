@@ -2,7 +2,8 @@
 
 This repository contains the localized documentation for the Massa project. It is based on the documentation in [Massa Docs](https://github.com/massalabs/massa-docs) repository.
 
-All the `.pot` files are automatically updated every day at 00:00 UTC.
+- `.pot` files are automatically updated every day at 00:00 UTC.
+- `.po` files for every languages are automatically updated every day at 01:00 UTC.
 
 ## Contribute
 
@@ -31,4 +32,3 @@ sphinx-intl update -p build/locale -l <language>
 ```
 
 Where `<language>` is the language you want to update. You can then commit the changes and submit a pull request.
-
