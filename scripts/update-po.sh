@@ -21,6 +21,6 @@ python3 -m pip install --user -r requirements.txt || fatal "Failed to install re
 find $PO_DIR -type d -name 'LC_MESSAGES' | sed "s/$PO_DIR\/\(.*\)\/LC_MESSAGES/\1/" | while read -r locale; do
     debug "Updating $locale"
     sphinx-intl update -p pot -l $locale || fatal "Failed to update $locale"
-done
+done || fatal "Failed to update PO files"
 
 success "PO files updated."
