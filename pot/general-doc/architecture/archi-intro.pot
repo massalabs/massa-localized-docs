@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Massa Localized Docs \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-28 00:52+0000\n"
+"POT-Creation-Date: 2023-01-29 00:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,506 +17,506 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../../general-doc/architecture/archi-intro.rst:5
-#: 37e311655e624213ae57b1b6be7f8942
+#: e3ad94d6dbbd4b9b936d75305dc0dd71
 msgid "Introduction"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:7
-#: 5eff35de2fee41669fa3d8f52cf276f3
+#: 07a7626b20c845eb9f350ee395a6351b
 msgid "We will describe in this document the global architecture of a Massa Node, from the ground up, and introduce relevant definitions and concepts."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:9
-#: 07987fc3f278417db2d8c80e2e4db373
+#: cef607098f08432cace3bca231a7b9a8
 msgid "The goal of the Massa network is to build a consensus between **nodes** to gather and order **blocks** that contains ordered lists of **operations**. An operation ultimate purpose once executed is to act as transitions for the global network state, called the **ledger**."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:12
-#: 84209543117a4a2bbcb4b43cbb96ec91
+#: c45c2c790d7144b78b069d2c3a40e7f3
 msgid "Operations are produced by external clients and sent to the Massa network via a node. Some operations are containing code to be run as **smart contracts**, enabling complex programmatic modifications of the ledger. Nodes will gather all the pending operations and group them to produce blocks. Each block contains a finite set of operations, limited by the fact that each block has a limited amount of space available to store operations. Traditional blockchains will then typically link blocks one after the other (including a hash of the previous block in the block header), to materialize their temporal ordering. However, unlike traditional blockchains, Massa blocks are not simply chained one after the other, but organized into a more complex spatio-temporal structure, which allows for parallelization and increased performances."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:20
-#: 96cdd34051164f57b2d5cfcacaa056b9
+#: 53b97587451946609a7e9fe44382e7ca
 msgid "Instead of one chain, there are several threads (T=32) of chains running in parallel, with blocks equally spread on each thread over time, and stored inside **slots** that are spaced at fixed time intervals:"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:25
-#: 55b44abef2804ad698495a18648d1653
+#: 70939ed3957c4851a453ba8f6a4e3739
 msgid "The time between two slots located on the same thread is called a **period** and lasts 16s (conventionally called :math:`t_0`). Corresponding slots in threads are slightly shifted in time relative to one another, by one period divided by the number of threads, which is 16s/32 = 0.5s, so that a period contains exactly 32 slots equally spaced over the 32 threads. A **cycle** is defined as the succession of 128 periods and so lasts a bit more than 34min. Periods are numbered by increments of one, so can be used together with a thread number to uniquely identify a block slot. Period 0 is the genesis and contains genesis blocks with no parents."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:32
-#: db2d1324af3c438b88534dcf454dfe00
+#: b3199994ae554a7cb12fba5b578838fa
 msgid "The job of the Massa nodes network is to essentially collectively fill up slots with valid blocks. To do so, at each interval of 0.5s, a specific node in the network is elected to be allowed to create a block (more about the selection process below, and the proof of stake sybil resistance mechanism), and will be rewarded if it creates a valid block in time. It is also possible that a node misses its opportunity to create the block, in which case the slot will remain empty (this is called a **block miss**)."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:38
-#: 9896a7d14eb745cca2018bd78af57aa6
+#: 7ee81d92ea014457a2b6e71a487c44a4
 msgid "In traditional blockchains, blocks are simply referencing their unique parent, forming a chain. In the case of Massa, each block is referencing one parent block in each thread (so, 32 parents). Here is an example illustrated with one particular block:"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:44
-#: f854be2830254d78b6e93d7a2d3f45b1
+#: 2834df46341641dd828a425241e981e1
 msgid "Let's introduce some relevant definitions and concepts generally necessary to understand how the Massa network operates. We will then explain the node architecture and how the whole system works."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:48
-#: 8ef487b330724630b0682d2a013bff93
+#: b63009bc48ab493f89bf0dffd8b0184f
 msgid "Address"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:50
-#: 334a2985c73041a7ae3f461dd38531b8
+#: be3ddfc4b59648ab8eb686e0662313f6
 msgid "Each account in Massa has a public and private key associated with it. This is how messages can be signed and identity enforced."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:53
-#: 61180da15d1849f88cca1050e57dd5ff
+#: b58ff6f5e28047a3b69ff922a6d16ee1
 msgid "The address of an account is simply the hash of its public key."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:56
-#: 5665acafbdd445bba18d9644fd83b794
+#: 003c962fab0e450b9cc8bb742dff5b83
 msgid "Ledger"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:58
-#: 578410a667ac4580b2c9f410e9e424bf
+#: c7fdbcc1f93343b7bb8f65f755d34a8c
 msgid "The ledger is a map that stores a global mapping between addresses and information related to these addresses. It is replicated in each node and the consensus building mechanism ensures that agreement on what operations have been finalized (and in what order) will be reached over the whole network. The ledger is the state of the Massa network, and fundamentally operations (see below) are requests to modify the ledger."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:62
-#: 9b9e71a85b524f81ba84b8fc834f5be9
+#: c748eeb9e3d045bdbd6a3fae3855bdd3
 msgid "The information stored in the ledger with each address is the following:"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:65
-#: fdfef89df66e484ab499c4c607f9a0af
+#: 58a28380546b42e9a655f28542f5d156
 msgid "**Ledger information associated with each address**"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:67
-#: d20fd491cab946c38f429c920081bfde
+#: 0a716d2114b948e193ab30eded46d187
 msgid "``balance``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:67
-#: 662adfcc77e8414cb694832652e9fd74
+#: 5a87e9a1832e4f5f9eee415c674fcc3b
 msgid "The amount of Massa coins owned by the address"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:68
 #: ../../general-doc/architecture/archi-intro.rst:147
-#: 0f52cef1f7c941c3a1d2acc70809e460
-#: d273649e9f684a2aaf37e3e7737e7698
+#: 3bb3a2fb6e0d4e31857cd0846a3a5067
+#: 8ee773e2b5b946d6872b28278618e6d8
 msgid "``bytecode``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:68
-#: 9491b60d5f5044eeb9f95692d03d9be5
+#: ae3eac92b76b4176a83d6e511ff97795
 msgid "When the address references a smart contract, this is the compiled code :raw-html:`<br/>` corresponding to the smart contract (typically contains several functions that act as :raw-html:`<br/>` API entry points for the smart contract)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:70
-#: f7282619d52a431b88a6d2bd793e7be9
+#: 9615ba498ed14032867ea2f2c0254696
 msgid "``datastore``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:70
-#: 06e56e8ed9e5449cb7bca0097936a71e
+#: 0a6462ae2262451bb3cfe0b4debdef72
 msgid "A key/value map that can store any persistent data related to a smart :raw-html:`<br/>` contract, its variables, etc"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:76
-#: 6174c20642d147cd936f795ae974b6de
+#: b51d891ca532454cad0fe10f779e0be7
 msgid "Smart Contract"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:78
-#: cb91b8b5ef3d412aab5f28420261b892
+#: 25952c4b4c124d6ba694bd30043ff8b7
 msgid "Smart contracts are a piece of code that can be run inside the Massa virtual machine and which can modify the ledger, accept incoming requests through a public interface (via smart contract operations). One particularity of Massa smart contracts compared to other blockchain smart contracts is their ability to wake up by themselves independently of an exterior request on their interface. This allows more autonomy and less dependency on external centralized services."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:84
-#: 7a116b1659d847c1b9ccb91c910fb7e9
+#: 51ae5cddb1154d7fbb455ddde44bae42
 msgid "Smart contracts are currently written in assemblyscript, a stricter derivation from typescript, which is itself a type-safe version of javascript. AssemblyScript compiles to web assembly bytecode (wasm). Massa nodes Execution Module runs such bytecode. Smart contracts have access to their own datastore, so they can modify the ledger."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:89
-#: 5e99fa32b612454d96d8e6a5ab2cf319
+#: a9d5418b8dd540939e5863a2b8c54ac3
 msgid "Operation"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:91
-#: 97b9528f52bd422fa6d21fb70b407a19
+#: b112868e79c44ef89c27dc7f2717fd2e
 msgid "Fundamentally, the point of the Massa network is to gather, order and execute operations, recorded inside blocks that are located in slots. There are three types of operations: transactions, roll operations, and smart contract code execution. The general structure of an operation is the following, and the different types of operations differ by their payload:"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:96
-#: 61991fe6c3f649bb934be64b94956a40
+#: b846eb13b814458baeab384ee9aa4d87
 msgid "**Operation header**"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:98
 #: ../../general-doc/architecture/archi-intro.rst:186
-#: 6cf92424d672477ebb834a62b3f600f7
-#: aaba53de01844bf796810c7c89a4005c
+#: 34b6c776b8ea4b9180c4f93305e84478
+#: 947b0064f2ac4e5c9671192206f52c6f
 msgid "``creator_public_key``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:98
-#: 43554751a03f4af2b2f062891f2fea2b
+#: 72ea3a1b2f60440f955ffcdb5a93dea9
 msgid "The public key of the operation creator (32 bytes)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:99
-#: 5d9f268a8373475b9d1728a5ee6c1f8d
+#: 2566c3afb3754e378c97010a3238f31e
 msgid "``expiration_period``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:99
-#: c1a6b2d17f84496c869c90ba6d061f5d
+#: d9573ebe3d294c3eba24a16a987d0283
 msgid "Period after which the operation is expired (u64 varint)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:100
-#: 0159c1d766f24b0f8d2dee97da35cefe
+#: 171c3e128d744c729b83022a6a7bb5fa
 msgid "``fee``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:100
-#: 1bee3afcbe074e8cba5a983ccffc6a0e
+#: a816c26fd6a844a0b531e218770a072b
 msgid "The amount of fees the creator is willing to pay (u64 varint)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:101
-#: f866d93646384b77b8a72cbd055fddb2
+#: 7665e84baf674b6a8ff0aaed735db870
 msgid "``type``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:101
-#: 8b257da3400c417bb23f8340fc72d6b0
+#: 0831bd5e77314b7fa5e05cade4ef862b
 msgid "The type of operation (from 0 to 4: transaction, rollbuy, :raw-html:`<br/>` rollsell, executesc, callsc) (u64 varint)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:103
-#: f8750b6e865e404faa390157409d80ed
+#: f129236cc1bb4ee9a38b06d5336d90ec
 msgid "``payload``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:103
-#: 1c0900d25cfa4096b34fab45e9c27adf
+#: f5d38c835e3b4941b0b9500a90bba55b
 msgid "The content of the operation (see below)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:104
 #: ../../general-doc/architecture/archi-intro.rst:191
-#: 7a518031bd6849b6b568e54679b38f70
-#: f9dd11cdf8e84471b0b93c79ebf6c6b2
+#: 89e2ba4f884349f49ce9fbdf4ae44a3a
+#: d02920f1a4154b4487fb0ef6498b90d0
 msgid "``signature``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:104
-#: 8244526398a14d15a9568aaafd4d6e3e
+#: 3b98bd581c1f4ad38cec59cd1c35942c
 msgid "signature of all the above with the private key of :raw-html:`<br/>` the operation creator (64 bytes)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:109
-#: 1a631fb9a73948338efb31261832bdf3
+#: ac07f388b1da45b69b192f6381a93675
 msgid "Transactions operations"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:111
-#: 290626376fe0482c9207a198c28968e4
+#: b4a672ea322e4b82a5a723511157fa20
 msgid "Transactions are operations that move native Massa coins between addresses. Here is the corresponding payload:"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:114
-#: 0e65fb2a410749e58d770810c860a6a8
+#: 6a11ed5effe447b98e7d72fb1d997436
 msgid "**Transaction payload**"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:116
-#: 29542a14125848c89b87882937be392a
+#: 9a6b4aa71bf544d9809101666c5ffd39
 msgid "``amount``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:116
-#: 16a6ec687897425887d80ca90d2e0888
+#: 9988f6f16e1c45dba64d6c74fd4e63d9
 msgid "The amount of coins to transfer (u64 varint)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:117
-#: 7cb846c299ab4af9bea15eae4dca7a6a
+#: 04d32ac10b054f77a811602173e0245a
 msgid "``destination_address``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:117
-#: a95346e9c0e24bb6bc7189a0918e29ea
+#: ed24993900884e498b1d1ad0064c6f5b
 msgid "The address of the recipient (32 bytes)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:121
-#: 68762f30299b4e78a9ff3328243c77da
+#: 7058e727fe824826bf405ff1e524e593
 msgid "Buy/Sell Rolls operations"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:123
-#: 79a43a89f76b4939a2dda0e4f8ea2bd6
+#: 16445ccc3f374fdaa720a42abcc0b1af
 msgid "Rolls are staking tokens that participants can buy or sell with native coins (more about staking below). This is done via special operations, with a simple payload:"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:127
-#: 7017d577edb54ec48c62316e765d6632
+#: 7687e5312a774fd4b68b581b720fca62
 msgid "**Roll buy/sell payload**"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:129
-#: 26a9baf9486847d0a6215f9dc0b1d99d
+#: 4baa070ca0084c769379523e9c032cec
 msgid "``nb_of_rolls``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:129
-#: 5ef0563f85b34d5f8746a09528fe8130
+#: 9fb1d4dca5ab48419c20481ee15f6e7e
 msgid "The number of rolls to buy or to sell (u64 varint)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:134
-#: abc675cb3e3342c2ae6a40a884d8cfad
+#: fbf7312bc6e84946be76439f8e1988e1
 msgid "Smart Contract operations"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:136
-#: 877d84640b464ebc89d403c32c3d7d82
+#: 1132651729124b79ab1ba2618bcfe1f3
 msgid "Smart Contracts are pieces of code that can be run inside the Massa virtual machine. There are two ways of calling for the execution of code:"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:138
-#: c7b35682c3e04898b163f9759bbb3f53
+#: 6d328d1376ea47b0b855e01ca20e4793
 msgid "Direct execution of bytecode"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:140
-#: 866606f8a89c42afa6b1f54d240313a2
+#: 21fdd8d670b3463c8bf675d6f46f3b93
 msgid "In this case, the code is provided in the operation payload and executed directly:"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:143
-#: e6f02766e7834bd3aa67ec4788ab2b5c
+#: c4ba50b269cf483d9aefd7349e8e7507
 msgid "**Execute SC payload**"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:145
 #: ../../general-doc/architecture/archi-intro.rst:161
-#: 42960d9300414506b7266c6ff4d5c653
-#: 47c1bab453364279b31363a5f96ca7e9
+#: bdabba4ea24c457e950c0c142451c878
+#: 85cb669fdd8249a691576297e33f83f6
 msgid "``max_gas``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:145
 #: ../../general-doc/architecture/archi-intro.rst:161
-#: 49a8b1732a30414ca1405dbc08b25e3a
-#: dbb04d38e3214d949f99546964dbc80e
+#: 4b45aaad81df4d2aa7bf1518ac94f34c
+#: e3c6c8a53c864c8f885de90fe7c2d8ae
 msgid "The maximum gas spendable for this operation (u64 varint)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:146
-#: da4acf82e41748848e835a1cefc379e0
+#: b1780b167dcc454bb5f0cee39b26c258
 msgid "``bytecode_len``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:146
-#: cb6977b1081b43a09eeaca9f33175515
+#: c0607cff0f04449aab458abfcbf0ee52
 msgid "The length of the bytecode field (u64 varint)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:147
-#: b9edac7c78de450d96a5156d82e573f0
+#: 5d2786e8b3294e71ac644b63dc8f04b6
 msgid "The bytecode to run (in the context of the caller address)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:148
-#: 7919634294b94e199ae10d5e5bfccf9a
+#: 4c802a6c05c24b2f96ccfd280aaf61fd
 msgid "``datastore_len``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:148
-#: 3fffc206d9e34689975c0b38bde4df89
+#: 5bfbd7a70ed5474482d0876eb9f67896
 msgid "The number of the datastore keys (u64 varint), each record :raw-html:`<br/>` is stored then one after the other after"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:150
-#: 73297edfad9f458aaba58238d63dc578
+#: bfa0ca33e15246e684cd73be42e92bea
 msgid "list of datastore records"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:150
-#: cf55fb062997465db88718dafae68797
+#: 0509063d3fc64271878701a6f03ca264
 msgid "Concatenation of ``key_len`` (u8), ``key``, :raw-html:`<br/>` ``value_len`` (u64 varint), ``value``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:154
-#: 527ff9960e3d4fecba848233fb28fc51
+#: c12466475ee74c8d94787f28c563651a
 msgid "Smart Contract function call"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:156
-#: ad28da3d87a8432980d1d47684aa87b6
+#: efba9003321e43e48efd4dee294d3c97
 msgid "Here, the code is indirectly called via the call to an existing smart contract function, together with the required parameters:"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:159
-#: df460fed67f346a7a43868adec9e21fe
+#: 8ae01fabf6f34dc0a4ff66ad8a726efe
 msgid "**Call SC**"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:162
-#: 95271a1897444658ab8135bd5df8fb5a
+#: 8fd09479155d4ad4b5de374ecab1ba07
 msgid "``coins``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:162
-#: 8196a876656c49559c2f75736fbf9cad
+#: c51a40a567cc4274ad7fee8eb0c703f4
 msgid "The coins transferred in the call (u64 varint)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:163
-#: d62e0f779cf8467ea1b4ac29fbba2927
+#: f1530af0e6a84d17bc3b1abef2f06b23
 msgid "``target_address``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:163
-#: 7383744b0e96430ba7e681913b41770c
+#: 5ff889c9aa284883b93beffd5be162f9
 msgid "The address of the targeted smart contract (32 bytes)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:164
-#: 7e4028f1e76443d19f91efefdb844121
+#: 8ee2a13749024566aa89381210ead8df
 msgid "``function_name_length``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:164
-#: a2c3c9c5b63748d181a96caf20b10353
+#: 177af6136c4e4a1cad190ada3e0690d8
 msgid "The length of the name of the function that is called (u8)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:165
-#: 12290194833640a28d41639684239f71
+#: 2ab4fca757424e3a9f28502ef747d6a7
 msgid "``function_name``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:165
-#: bac42eb27db540528c5b6a6d3b6d5fd7
+#: c90a11954a41490fbcd4dcc7b03c53b4
 msgid "The name of the function that is called (utf8)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:166
-#: 6b512fa06fbd442c9ba26a7c677879c8
+#: f291ccec98944929853dee27f6aab2a7
 msgid "``param_len``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:166
-#: 3dd8943a788a4ac5ac1745a38793f68a
+#: 723f8021045441ae900de63aa0b306ba
 msgid "The number of parameters of the function call (u64 varint)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:167
-#: a35d8f8f53844d57995b47412565e914
+#: 4fbcd3e37f584ebaa07b8183b44ba397
 msgid "``params``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:167
-#: ef180739401948399d97566b7b2afa7b
+#: 495ffbdf1a02490f90ac83627eecea53
 msgid "The parameters of the function call"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:171
-#: e4e039fea27646b9852cf7ff9afe018a
+#: 51bb87d556dd49bb852b21766c1584ad
 msgid "Block"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:173
-#: 245bc64691eb4ff8aeba51ef3a42fe11
+#: 3f91f5813da44c308decdbbe50bece06
 msgid "A block is a data structure built by nodes and its function it to aggregate several operations. As explained above, for each new slot that becomes active, a particular node in the network is elected in a deterministic way with the task of creating the block that will be stored in that slot (more about this in the description of the Selector Module below). A block from a given thread can only contain operations originating from a `creator_public_key` whose hash's five first bits designate the corresponding thread, thus implicitly avoiding collisions in operations integrated into parallel threads."
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:179
-#: 96e224f6de85453593ea3c13c19b700b
+#: 8b09bb3491344883b233827c57ba172a
 msgid "The content of a block is as follows:"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:182
-#: f6d92b10bee149e4b6e3f4f4110d5b2b
+#: 55767b3577ab4563be5b9502878f0289
 msgid "**Block header**"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:184
-#: 398906803f4749cd8aafb84c607b7bf8
+#: a942758b49c84a45ab62ce530fa77338
 msgid "``slot``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:184
-#: 865ccdf3c3c54ebbb49d110810b949e0
+#: 6643b0961cb4473f84559425be8e5835
 msgid "A description of the block slot, defined by a couple (period, thread) that :raw-html:`<br/>` uniquely identify it"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:186
-#: ba1c9a9e7bfb4d06993b03aa825ff9c4
+#: 65c802f967824b0fa8cb9d3dcf9daad4
 msgid "The public key of the block creator (32 bytes)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:187
-#: d1653fda9d04485c8e881b8322487756
+#: 1048c4bb8a4345b0a680f4586e5997b6
 msgid "``parents``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:187
-#: 5be4dc69021446a7a1d5a6307899e763
+#: f6c685da3292481fae5735e69bbc8002
 msgid "A list of the 32 parents of the block, one parent per thread (parent blocks are :raw-html:`<br/>` identified by the block hash)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:189
-#: d4515ab16f244980a591a461c21d7a00
+#: 8739064ec6f9498c8fb013f71347ef10
 msgid "``endorsements``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:189
-#: 558b83d2af3c4518800fc8a2933ccefc
+#: 63ba24cff50f49e89b22493303efef82
 msgid "A list of the 16 endorsements for the block (more about endorsements below)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:190
-#: 5c6bc2e7143e453480a832d12799d95b
+#: 20561c7341e9440d9ff980067af6931b
 msgid "``operations_hash``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:190
-#: 1d1e73257c4a4e8b9e60806ef5181d89
+#: 0b0af37388cc45d2ada1a20daec18ff0
 msgid "A hash of all the operations included in the block (=hash of the block body below)"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:191
-#: 81b4cddb38604acaa14183a1827e932a
+#: 6b9e6f289652417989d4037a6e3e8e3b
 msgid "signature of all the above with the private key of the block creator"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:193
-#: a712a810bbab4fb1834324bb4dddea2e
+#: b8a29b478f644ca29ea8b6d6068ad064
 msgid "**Block body**"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:195
-#: 55636c7ce72d4aac970f28a11ccfd7fd
+#: d0cf4623a41e4f57b348cbe3cc0636e9
 msgid "``operations``"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:195
-#: 2c40c87d4c8b4cdaaf788f76ba6662d0
+#: 85642965894a496faf8074dab91de1cb
 msgid "The list of all operations included in the block"
 msgstr ""
 
 #: ../../general-doc/architecture/archi-intro.rst:198
-#: 0e37b281e60543a398342338259f7dea
+#: fa257ee9326b464485d5e660550ac1f1
 msgid "Endorsements are optional inclusion in the block, but their inclusion is incentivized for block creators. They are validations of the fact that the parent block on the thread of the block is the best parent that could have been chosen, done by other nodes that have also been deterministically selected via the proof of stake probability distribution (see below). A comprehensive description of endorsements can be found `here <https://docs.massa.net/en/latest/general-doc/architecture/endorsements.html>`_, so we will not go further into details in the context of this introduction."
 msgstr ""
