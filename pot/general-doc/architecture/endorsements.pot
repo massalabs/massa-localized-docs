@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Massa Localized Docs \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-01 00:58+0000\n"
+"POT-Creation-Date: 2023-02-02 00:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,271 +17,271 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../../general-doc/architecture/endorsements.rst:3
-#: 66dc7afe0cb742b6af5310fb01373033
+#: 7240a503ff2b437499d4a1eccf256872
 msgid "Endorsements"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:6
-#: 3bd9c999a06a43a79070325ff8afc5bc
+#: 995c7f9f728c4c4b9d0234f6d05a7bf0
 msgid "Intro"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:9
-#: 549b2a048a534b10a2a65f053e9815be
+#: cbd266e8ef26408ea70ec36610efe089
 msgid "Massa uses the Proof-of-Stake selection mechanism with Nakamoto consensus. In that context, when there are multiple cliques in close competition, we want all nodes to converge towards a single clique as fast as possible to minimize finality time and maximize the quality of the consensus. To achieve this, we draw inspiration from Tezos and introduce the concept of Endorsement."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:15
-#: 574d493669cf40b2a096e75aacc6e375
+#: 88bc52072d5c48c984644aa7047ec426
 msgid "Basic principle"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:17
-#: ca52c6173a904a70aaa450b6703a1458
+#: 9e421a65d9b14533b05e9b548786543b
 msgid "Each block header has `E` ordered endorsement slots: each one can include an endorsement or not. Each endorsement contains:"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:20
-#: 5c7279128e3a43bbb4e8a059c54209b3
+#: 5d1ac2c1214d41b6a1f754ebababd3b2
 msgid "The slot `S` in which it is meant to be included. The endorsement can only be included in blocks of slot `S`."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:21
-#: a6eddda79d444716939d1b6fdb57ec61
+#: 94e2278e448840dab8f7ccf6038c026a
 msgid "The hash of the endorsed block. This is the hash of the latest blockclique block of thread `S.thread` according to the endorsement creator at the moment the endorsement was created."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:22
-#: 7d3f55b2621241efb87df11c57fe6fba
+#: 1dbd1b54ef0745178d8a0df2dfc1093d
 msgid "The index of the endorsement slot within the header from `0` (included) to `E-1` (included). The endorsement can only be included at that endorsement slot index within the block eader."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:23
-#: f648698feb584d46b2bb8881a0bc9573
+#: 7bb40f70136f460980e869735a6289bd
 msgid "The public key of the creator of the endorsement"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:24
-#: e137e418b4af410492bf3237893468c9
+#: 5f828bd00b524e9b9e63e9642f5032cb
 msgid "The signature of all the previous fields with the private key of the creator of the endorsement"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:26
-#: aa7d18e3a3c14dc09fc7eb333cb4ff03
+#: 7ce53823a57d44f68e53c785a1e03cb9
 msgid "At every slot `S`, we use the existing Proof-of-Stake selection mechanism to not only draw the block creator for that slot, but also `E` other stakers indexed from `0` (included) to `E-1` (included) that can create Endorsements meant to be included in block headers of slot `S` at their respective endorsement slot index."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:29
-#: 1b4cdadb40ff4cfb8a030ba9d3bc1e20
+#: 6200d90f0dbc4128b164e11c8475b58f
 msgid "Conceptually, each endorsement meant to be included at a slot `S` can be seen as a single vote endorsing the parent in thread `S.thread` that the endorsement creator would have chosen if they had to create a block at slot `S`."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:32
-#: d0fd66f7f66b4eb482cd0c093aa4071a
+#: 3cad082aa40b4fc7b77d001429ee4633
 msgid "The likelihood of the attacker getting lucky and being selected for `N` consecutive PoS draws to attack/censor the system decays exponentially with `N`. With endorsements, we don't have to wait for `N` blocks to account for `N` proof-of-stake draws to happen as `E+1` draws happen at every slot (1 for the block creator and `E` for endorsement creators). In the consensus algorithm, we choose the clique of highest fitness as the blockclique. A block including `e` endorsements out of the maximum `E` contributes a fitness `e + 1` to the cliques it belongs to. The fitness of a block is therefore reflected by the number of PoS draws that were involved in creating it."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:38
-#: 40546399b3dc469cae4fce1e78f61b4a
+#: 7469ea99d6a2411f9e65bb57523591dd
 msgid "The net effect of this mechanism is to increase safety and convergence speed by allowing block producers to quickly choose the best clique to extend according to the \"votes\" provided by the endorsements."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:43
-#: 8e465d2353994e8185dab228c0e16fde
+#: f89e1ae87af84aa2a389da817a15e351
 msgid "Structure of an endorsement"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:58
-#: 66f3dbbf496f4345b1e5973fc7d42480
+#: e255f103d7f147aaba5041d84df33daf
 msgid "Note that the `WrappedEndorsement` structure includes the underlying `Endorsement` as well as the signature, and the public key of the endorsement producer."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:60
-#: d84cd6dca56e4d159ceec537ac53acc4
+#: 3a02dd7bdb994d9897d3db8303dae6be
 msgid "Within a block, endorsements are fully included inside the header."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:62
-#: f5cc3cdd77d646728a88cbc2c9611cf8
+#: f1ad99b364ed449d95acb7ebefcbfdaa
 msgid "A header is invalidated if:"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:64
-#: 5682f1a7d8824e2d8b46b2750eff8253
+#: 0417c670474a4fee9c9ff1ca033cf14b
 msgid "it contains strictly more than `E` endorsements"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:65
-#: bc0798568d6a4820b95975e6728d62dd
+#: 94b9ea7c4065492bbd59ea0c57001188
 msgid "at least one of the endorsements fails deserialization or signature verification"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:66
-#: 4a91556972384f6b966e18095bea4263
+#: 13be8491743546a7831fc1c90fb37799
 msgid "at least one of the endorsements endorses a block different than the parent of the including block within its own thread"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:67
-#: 21d48c38a5ff4d71ae2e3d1d053c4087
+#: 576f4920361d428c9682bad6ddb51a1b
 msgid "any of the endorsements should not have been produced at that `(endorsement.slot, endorsement.index)` according to the selector"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:68
-#: d121abc250f3470b80926429b5dae39c
+#: 9daff17ba6b54d938fb39a0a265e2f42
 msgid "there is strictly more than one endorsement with a given `endorsement.index`"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:71
-#: 660281fa6cab405b8a90eb6cc61372b1
+#: 80587ccf76fa4ccb8e7326fceddeb992
 msgid "Lifecycle of an endorsement"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:73
-#: 3c23c0a2ddfe4243b57242e78ee39e27
+#: 8af9dc40f1524caba02a2209702edb36
 msgid "To produce endorsements for slot `S`, the Endorsement Factory wakes up at `timestamp(S) - t0/2` so that the previous block of thread `S.thread` (the endorsed block) had the time to propagate, and so that the endorsement itself has the time to propagate to be included in blocks of slot `S`. It then checks the endorsement producer draws for slot `S`. At every slot, there are `E` endorsement producer draws, one for each endorsement index from `0` (included) to `E-1` (included). The factory will attempt to create all the endorsements that need to be produced by keypairs its wallet manages. To choose the block to endorse, the factory asks Consensus for the ID of latest blockclique (or final) block `B` in thread `S.thread` that has a strictly lower period than `S.period`. Every created endorsement is then sent to the Endorsement Pool for future inclusion in blocks, and to Protocol for propagation to other nodes."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:80
-#: 959e18105893476e8dcae758e6b5ed6a
+#: 8e1e4e2abe574cb980cf01700fb58bb2
 msgid "In Protocol, endorsements can be received from other modules, in which case they are propagated. They can also be received from other nodes, in which case they added to the Endorsement Pool and propagated. Endorsements are propagated only to nodes that don't already know about them (including inside block headers)."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:84
-#: 9c9217c943f3403b938c470d986a069d
+#: 5fbd4723139d4830bde1adb8a630b92a
 msgid "The Endorsement Pool stores a finite number of endorsements that can potentially be included in future blocks created by the node. Consensus notifies the Endorsement pool of newly finalized blocks, which allows the pool to eliminate endorsements that can only be included in already-finalized slots and are therefore not useful anymore."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:88
-#: 167bf33ee1bb492c8ef9b20fec4b6d88
+#: e8350f3a53764cf59d6cc4d4fcab4b2b
 msgid "When the Block Factory produces a block and needs to fill its header with endorsements, it asks the Endorsement Pool for the endorsements that can be included in the block's slot and that endorse the block's parent in its own thread."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:92
-#: c3723988ddac4de18f7dc7f47cef0bed
+#: 87100078db094d119b30174302064d9f
 msgid "Incentives and penalties"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:94
-#: 848a8110dfdc4310917d2cdc64aa9417
+#: 75e1ee2047ee458ba33c55e3e67a7c34
 msgid "There needs to be an incentive in:"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:96
-#: bb6c851c50da4b92a0f66c4254700a11
+#: 13256e8aea4d46c19d3e121791adb1b2
 msgid "creating blocks that can be endorsed, and also avoid publishing them too late so that endorsers have the time to endorse them"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:97
-#: 82eb0f325f934b6dbec89fac402480fc
+#: 3a127db2bc4c4d099cc7ecff36c403a5
 msgid "creating and propagating endorsements, also doing so not too early in order to endorse the most recent block, and not too late for subsequent blocks to be able to include the endorsement"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:98
-#: 645a20be40064501bc0abbdcf208c0b9
+#: 905d7668d55d49af8fadf153df0b0dd3
 msgid "including endorsements in blocks being created, and also not publishing them too early to include as many endorsements as possible"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:100
-#: c2ff706a89b84b2ea5d039186f729712
+#: f5df44dd0b11499091b88818d828826d
 msgid "To achieve this, we note `R` the total amount of coin revenue generated by the block: the sum of the per-block monetary creation, and all operation fees. We then split `R` into `1+E` equal parts called `r = R/(1+E)`."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:103
-#: 232b6c7e28dc44bebe3adf80fc98aa32
+#: 55d7b5e86847423c886fde4a8bd43949
 msgid "`r` is given to the block creator to motivate block creation even if there are no endorsements available"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:104
-#: 8af9a1ab97fa415e8dd33036a8e7b6d8
+#: 4f364b9773d2439f904bf5831882ad5f
 msgid "for each successfully included endorsement:"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:106
-#: a02f084883434a17a8415af3bd49b339
+#: e0da326169044354a6e744e6dae79665
 msgid "`r/3` is given to the block creator to motivate endorsement inclusion"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:107
-#: a0b95ba281c94b85810516daed5923c1
+#: 8c2ab763d61e4be2abfd052e04ac3bd9
 msgid "`r/3` is given to the endorsement creator to motivate endorsement creation"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:108
-#: 86f0c3d4a8f746cbbf8aad2d0cc439fa
+#: bc1c2b5bc87f48d18f3aac163119e707
 msgid "`r/3` is given to the creator of the endorsed block to motivate the timely emission of endorsable blocks"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:110
-#: 8ca9d3e2e44545ecbf4f9b4861772c77
+#: b73e948774a64b57a7a9c2107cfaf47c
 msgid "Note that this split also massively increases the frequency at which stakers receive coins, which reduces the incentive to create staking pools."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:114
-#: 2c4d27522e4a4e0e98d3ada8130163db
+#: cb59f026d39849b7b31360a3943bc057
 msgid "Choosing the value of `E`"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:115
-#: 975244d02a5041ba8e95c25230160879
+#: 3304b8557ded44e3a25b8fcc18063d39
 msgid "The value of `E` has implication both in the safety and in the performance of the protocol. In terms of performance, the greater the value of `E` is, the more ressources (bandwith, memory, computing power) is needed to generate, broadcast and include endorsements, which could induce latency. One the other hand, the value of `E` has implications in the safety of the protocol. The threat we are looking at here is the finality fork attack."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:120
-#: 063e51e864d2464b86b66137dec4f931
+#: d1ddbc7b8fed4941b644beaf9b2cd4eb
 msgid "Finality fork attacks"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:121
-#: 41b5a764932848ec90aec24db6e77b08
+#: 127a69b6020946f09324ce0007ad501e
 msgid "A finality fork attack is when an attacker that controls a portion `beta` of the total stake, decides not to broadcast the blocks he has been selected to produce, in order to construct an alternative and undisclosed clique. The attacker's goal is to produce an attack clique that has a fitness greater than the honnest clique. If he manages to do so, the attacker can wait until the finalization time of a block `b` belonging to the honest clique, to broadcast its attack clique. Because the fitness of the attack clique is greater than the honest one, a portion of the network will consider the attacker's clique to be the good version of the chain, while some other portion will have finalized block `b`. This results in a network partion, where two or more portion of the network do not agree on the state of the ledger."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:127
-#: ef8199f290bb4ee8a456a45f3da4b7ed
+#: 1886a4b9fcaa4f239f4185b59329c7fb
 msgid "Security level"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:128
-#: 7eb02bdff5a54edbb6f7457b729afbc9
+#: 1619e57060454e0f982f8ae696b4efbd
 msgid "The factors that influence the success probability of a finality fork attack are the number of endorsments per block `E`, the portion of the total stake controlled by the attacker `beta` and a finality parameter `F`. The finality parameter `F` respresents a number of descendant a block must have, before being finalized. The portion of the stake `beta` is positively correlated with the success probability of an attack, while `F` and `E` are inversly correlated. We do not have control over `beta`, thus we define our security level as a portion `beta` and a maximum success probability of an attack. We chose `beta = 1/3` because it is the maximum proportion of Byzantine participants BFT based consensus protocols assume. We chose `p_success <= 1e-11` because it corresponds to a period of time of around 10 000 years (given one block every 0.5s). We must chose the minimal parameters `F` and `E` that match this security level."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:136
-#: 06f16542884946889a8a80fc5b9743b5
+#: 2ee330e457a046ecb097c7eecc6ec493
 msgid "Simulation results"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:137
-#: 9765297b3af6414cac430c46fce8abfb
+#: 5e5bd48985a44b099e3f8d2b66ffb5a1
 msgid "Our simulations results show that with `F = 64`, `E = 16` and given 32 thread and a portion `beta = 1/3` of the stake controlled by the attacker, the probability of success of an attack is in the order of `1e-11`. You can find more details in the [technical paper](https://arxiv.org/abs/1803.09029)."
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:143
-#: 867b56bc52c74498a178c1e10d1b4b9a
+#: 7776d9fed78f4b229c7b002fa78b6608
 msgid "Future features"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:145
-#: 7f50bca81a3841f982142133d8bc53c3
+#: 587a9dee3bb74524a891ad228c0497b5
 msgid "There is still optimizations that we can perform on the endorsements and their workflow :"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:147
-#: 5122af1392444ae0907ad3561e9e93cd
+#: d12950361bb349a494eb6145f08d9f9b
 msgid "Add more verifications when receiving an endorsement from an other node of the network to avoid storing/propagating invalid endorsements. `Issue <https://github.com/massalabs/massa/issues/3020>`__"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:148
-#: 59bd891a06c9487f9e401b1c5d53393f
+#: 0ba960a9209f4ef5b1883a646b3b2ea2
 msgid "Use stored endorsements to choose the best parents. `Issue <https://github.com/massalabs/massa/issues/2976>`__"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:149
-#: 8a76e0c3061845d5abddb3fdfb57e7bd
+#: 1d2d0207b1e44d289ba0edf835c9a96d
 msgid "Split blocks and endorsements productions to an other binary so that they can be run on different machines and be more customized. `Discussion <https://github.com/massalabs/massa/discussions/2895>`__"
 msgstr ""
 
 #: ../../general-doc/architecture/endorsements.rst:150
-#: 12125edfa3b749d0a3c35b65cb8de93d
+#: edd1a7acf4ed44648575492c1eeb34cb
 msgid "To punish network and CPU overload attacks, a denunciations system will be implemented to point out the stakers that produces two different endorsements for the same `(slot, index)`. `Issue <https://github.com/massalabs/massa/issues/3022>`__"
 msgstr ""
