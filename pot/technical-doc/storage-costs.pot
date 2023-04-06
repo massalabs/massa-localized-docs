@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Massa Localized Docs \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 00:39+0000\n"
+"POT-Creation-Date: 2023-04-06 00:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,86 +17,96 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../../technical-doc/storage-costs.rst:6
-#: e1e0ea04be2843deb9acc1365fca24b6
+#: e1018e47b4384287ac1158d620b065db
 msgid "Storage Costs"
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:9
-#: 2b18b978dbe24254b2982419f5fe3b94
+#: 7d976ac1f19f46aa82feda18ae72c4a6
 msgid "Explanations"
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:11
-#: 055b6b5246f946218873d663159d2dcb
+#: bc66351067564d62b9d65747f41a7929
 msgid "In Massa the ledger is shared across all nodes of the network. We need to set a size limit to be able to run a node without having 100TB of storage which will cause a barrier for adoption and running nodes at home. We chose to limit the size to 1TB. Everyone can store data until the ledger reach 1TB. But how can we ensure this limit ?"
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:15
-#: 0e78ec88daed45d3b7f0b866f728eb7c
+#: 3a82247896b7425ea1d6089c4a7a7c9e
 msgid "We chose to force users to lock coins when they claim storage space and so we created a correlation with storage and circulating coins."
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:18
-#: 47d69548e43541f1b9d60835b4c693b6
+#: 411e7a81a3d4437cae61dfb575813e2f
 msgid "For each byte of storage you claim (for your address and balance, a key in your datastore, bytecode, ...) you need to lock coins. The coins are released when you release your space in the storage."
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:21
-#: 40731eba9bfc457aa025a8c23ca3dc46
+#: 9796f93cde8146b682358fb1d0f33918
 msgid "The amount of coins you need to lock for one byte is 0.00025 Massa. This value has been chosen so that if half of the coins (250 000 000 Massa) are locked, we will reach the 1TB."
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:24
-#: abd7d53604864152bdc0bbbd751935b3
+#: aeae0b9c204a4269944c74e16720df6e
 msgid "As balances are stored as `varint <https://developers.google.com/protocol-buffers/docs/encoding#varints>`__ in the ledger their size can vary. To avoid difficulties and incomprehension we decided to use a fixed size for each balance. This size is 8 bytes and so initial ledger entry (address + balance) cost (8 + 32) * 0.00025 = 0.01 Massa . Datastore keys also have a variable size and so we decided to use a fixed size of 10 bytes for calculating storage cost."
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:29
-#: 9f2a971cd127474386af32cad42093e0
+#: 2d748fcac3784aa399e2638b79ec4add
 msgid "If you want to calculate the storage cost of your address in the ledger the formula is: address_size + balance_constant + bytecode_length + sum of (constants datastore key + value size) = 32 + 8 + bytecode.len() + sum_i(10 + datastore[i].len())) * 0.00025"
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:33
-#: 345c3f29970442f1a74289a5da71af5b
+#: 6d2d054c36814bab9ac5af2f04999a82
 msgid "The storage costs are always paid by the address that calls the ABI. For instance, if you are using the ABI `set_bytecode` or `set_bycode_for` you will be charged for the storage costs."
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:37
-#: 5988c4630742413ca1cbfd8fed17e561
+#: c889a11573574f2b95fde79a4d058962
 msgid "Example"
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:39
-#: 235b46687bd149f6862a5df4f8ffa82a
+#: 90712618e7984e3ebacba87bf3dc892c
 msgid "To create your address on the blockchain someone need to send at least 0.00025 * (32 + 8) = 0.01 Massa when sending the operation that will create your address (a transfer for example). This is the cost of creating your address and balance."
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:42
-#: b50d6ded4b484848b4513de636e1b2a4
+#: 1274bf425e1c4b48b4b40cabc4838532
 msgid "You want to store your birth date that is 30 bytes long in your datastore so you need to send an operation that will create a key in your datastore using a SC. This operation will cost you in storage costs at least 0.00025 * (10 + 30) = 0.01 Massa."
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:46
-#: 52bf9b430db849dda846d5dcdf0bb90c
-msgid "Now you want to delete this entry on your datastore you will be refunded of the storage costs (0.02 Massa)."
-msgstr ""
-
-#: ../../technical-doc/storage-costs.rst:49
-#: 9c57df425dc84b61b10e63139f62d7d1
-msgid "Notes"
+#: 0fe9003773c64262914477095f2ead93
+msgid "So when creating a fresh new wallet using `massa-client`, you can generate it with `wallet_generate_secret_key`, and check its address using `wallet_info`, however as long as you don't receive a transfer of at least `0.01 Massa`, this address won't appear anywhere in the ledgers of the blockchain."
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:51
-#: 8d9ec78ca1824a4290490f915f4136ac
-msgid "In case of refund of the storage costs, after realeasing space, the address reimbursed is the one that calls the ABI, possibly different from the one that paid for this storage."
+#: e4750990a5534b82a20942bb379802df
+msgid "If you receive a transfer of `0.005 Massa` the operation will fail, and if you receive a transfer of `10 Massa`, you will see on your balance only `9.99 Massa` available."
 msgstr ""
 
 #: ../../technical-doc/storage-costs.rst:54
-#: b08c4463abdb44b58a5b1c413778a2cf
+#: 41493189f9ae46d89501551beff072f1
+msgid "Now you want to delete this entry on your datastore you will be refunded of the storage costs (0.02 Massa)."
+msgstr ""
+
+#: ../../technical-doc/storage-costs.rst:57
+#: 7f927bda2e124cbeae23a09bf8c0fc3e
+msgid "Notes"
+msgstr ""
+
+#: ../../technical-doc/storage-costs.rst:59
+#: 0d4211097048435f9538e96c41ea9016
+msgid "In case of refund of the storage costs, after realeasing space, the address reimbursed is the one that calls the ABI, possibly different from the one that paid for this storage."
+msgstr ""
+
+#: ../../technical-doc/storage-costs.rst:62
+#: 8c7d6410be824d36823dff78736dbf3a
 msgid "In the case of a `CallSC` operation, the storage costs are paid by the SC."
 msgstr ""
 
-#: ../../technical-doc/storage-costs.rst:56
-#: 067721908f0d436cbbbd956513e4dcb9
+#: ../../technical-doc/storage-costs.rst:64
+#: 29703ac1c5344865a6a7904505dea61a
 msgid "If you are a SC developer and you want your users to pay for the storage costs of your smart contract you can use the coins that are passed by the `coins` parameter of CallSC. You can also save their address in your datastore in order to refund them later."
 msgstr ""
