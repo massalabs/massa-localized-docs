@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Massa Localized Docs \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-19 00:50+0000\n"
+"POT-Creation-Date: 2023-04-20 00:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,206 +17,206 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../../technical-doc/bootstrap.rst:2
-#: cf2afea4531244898e0662088bc8e87b
+#: 4042ead2c1df4be69307cb7606847a2b
 msgid "Bootstrapping in Massa"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:5
-#: 9508fad5441b4f5694455e448f73a2bf
+#: 5275a2155332430295368ddbecfc0818
 msgid "Introduction"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:7
-#: f7b218b93b2143ba8051408c5b51ef1a
+#: 6a1900e6ce83435782288bbda74d8cc4
 msgid "Nodes that are already part of the network are able to follow the State by observing the blocks passing through the network, verifying them, and applying the state changes they cause."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:10
-#: 69c41789b9c94b979399717b6e9c0f9c
+#: 0e873a32bec84e089719f737159a37ac
 msgid "However, new nodes joining the network need to get an absolute \"current\" version of the state, which is called \"bootstrapping\". In some blockchains like Bitcoin, full nodes joining the network are recommended to download all blocks from the beginning (genesis) of the blockchain in order to re-verify the whole state change history."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:18
-#: ae8e620c2f3f4d1d9faf87a85ba745ae
+#: adb4d6ce0e7a4346abd57d4979d8ab20
 msgid "However, Massa has a triple decentralization/security/performance goal:"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:15
-#: fc16aa61ec0a401d881e0cb1b3633817
+#: 6df242810321437cb0fdba031217c4ac
 msgid "maximal decentralization requires that node hardware requirements stay consistent with a typical consumer desktop computer to lower the entry barrier of becoming a node runner"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:17
-#: ca19bd26ba0245eda9fbcc00d3d7eeca
+#: ee3698f23ecc476e9706ba056e2e7a1e
 msgid "maximal security requires that all nodes verify all blocks and operations"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:18
-#: 70f19a923db54b01a7d38fc6d139b9ea
+#: 70f7da0008fc4e08af6a5a7e9ea1da7e
 msgid "maximal performance requires using the node hardware to its fullest (CPU, network, memory, storage)"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:20
-#: c6dda7716c8a409f990b123e8e7c9b0d
+#: 2c27e2e200b740449b63a3da97175212
 msgid "This means that the State in Massa evolves almost as fast as typical consumer desktop computers can run blocks, which implies that catching up blocks since genesis goes only slightly faster than new blocks appear in the meantime, and would take a very long time. Moreover, Massa aims at processing thousands of operations per second, which means that it produces a lot of block data every second, thus preventing nodes with the target hardware from storing the full block history and making bootstrapping from genesis impossible since old blocks are forgotten."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:26
-#: 8fcc91f02c614a6ab7cfc4eee50d6d9b
+#: 03f16afd2f2b4d3893308a4771da5156
 msgid "Massa nodes joining the network must therefore bootstrap by downloading the absolute current State."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:28
-#: 29d7b27909d847f0807b65ec76216493
+#: 67ae52f636db43f3a0cde1f04e7c57b9
 msgid "Note that nodes can recover from short-term disconnects by asking for missing data from nodes around them once they come back in the network. However, since Massa nodes only store a short history of blocks and forget older ones, it is impossible to recover from long disconnects since the surrounding nodes have forgotten the blocks needed by the recovering node. In that case, a new State bootstrap is required."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:34
-#: ff180780074043638198fd1d2121ab66
+#: 88fdb88928544b4b9ff73303c9c2d4f7
 msgid "Security model"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:37
-#: fadbd75dd96e4fda905dc5e43452d59c
+#: 1abc5dc18411479da320283010711e7a
 msgid "The example of Bitcoin"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:39
-#: e179072c2a1d4f339ab516f58c7c7532
+#: 858d55c382924e08bb371f05295799bd
 msgid "To understand the security model of node bootstrap, Bitcoin is a good starting example."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:41
-#: 349ec966992945abb6859fceafb084f4
+#: 651aafa2f30b45b5ba7e70de788f2896
 msgid "When Bitcoin node runners decide to join the network, they first download the node software from a central source (eg. bitcoin.org). If that source is compromised, the node might end up on a different network, and/or private key theft might happen. Bitcoin therefore requires trust in the entity sourcing the node software."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:45
-#: e7d0ad5f7dde4fc9948c5753d08d6e89
+#: bb78a36d690942509118c84d48c38258
 msgid "Note that optionally, if the nodes don't wish to download the full block history they resort to trusting a more recent \"checkpoint\" state encoded in the node software. If that state is compromised, the node's knowledge of the whole ledger might be skewed."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:49
-#: f5572e1a94e44a61a89179726a27f0a9
+#: b3847a66f5124cf2981715ffe4f2d8df
 msgid "Assuming the node software is not corrupted, new nodes joining the network need an initial list of peer nodes to which they need to connect first in order to discover the network. This list is hardcoded in the node software (see `the bitcoin docs <https://developer.bitcoin.org/devguide/p2p_network.html#peer-discovery>`_). If all peers pointed by this initial list are compromised, the node can end on a different (non-bitcoin) network, even if the node software itself is not compromised. Bitcoin therefore also requires trust in at least one of the initial peers."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:55
-#: 5f558a3a7566469eb698ce11cdab681c
+#: cf629e92552b46489276084fca9fbdd4
 msgid "Note that ending up on the wrong network can be detected by checking block hashes with an external source. But this requires trusting yet another source of data."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:59
-#: 2b63f9c903234b00817f35d73954769f
+#: 7153928bd5b0461692c411df09d6d1a8
 msgid "The case of Massa"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:61
-#: 3389234e395740039f20bb9658837601
+#: ff6fa447bd4c4247addba34bdc0e5b33
 msgid "The Massa case is very similar to Bitcoin's. Node runners also need to trust the source of the node software they download, as well as the initial list of peers."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:64
-#: 55668b44efef4a35b0fab1db2d82a11a
+#: a4b5527224524e73ad0a408bdbeaa185
 msgid "Similarly to Bitcoin checkpoints, bootstrapping Massa nodes must obtain the current State from a trusted source, ideally the same source as the one they downloaded the node software from, in order to avoid having to trust multiple entities."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:67
-#: 9429dfac4d2747e5881caa23fa2e4ba8
+#: 12e2affc3f2c4e80bfafcd6d6433ad94
 msgid "Downloading the state from an untrusted source can result in major issues such as coin theft. As such, bootstrapping from untrusted sources should be discouraged, and bootstrapping other nodes should be opt-in for node runners to avoid \"bootstrap lists\" circulating as the default way of bootstrapping from unaware node runners."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:72
-#: c5b559aa0a3044ff82d70d52d3a546f7
+#: 71d7f42426714c6b844b45bc2deea65e
 msgid "Implementation details"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:75
-#: d544484d47404720b9a843620a0aa499
+#: d11a265786f9492ba003e90ba385e711
 msgid "Procedure from the point of view of the node being bootstrapped"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:77
-#: 98fe362d78b64a60bc1f332ab3c56809
+#: 879f2a7764de4e858ef4a22b4702de84
 msgid "Massa nodes that bootstrap start by connecting to a randomly chosen node among the ones listed in `massa-node/base_config/config.toml` (section `Bootstrap/bootstrap_list`)."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:80
-#: 74a704d0aac24b68ada62b313f396e30
+#: 7d8f56c2ee204673a436b3b141ce4d3b
 msgid "The bootstrap process uses a separate port and protocol than the normal Massa peer communication."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:82
-#: 22cf3c53589c4ba88b6da6c40f2a390d
+#: 8fccdd7ef68f44ba881cc848242b0e6a
 msgid "All communications with the chosen bootstrap node are authenticated using the public key (node ID) of the bootstrap node (in the `config.toml` file, section `Bootstrap/bootstrap_list`) to prevent man-in-the-middle attacks."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:85
-#: f2272f18acec4071b09a8ef333a1ce75
+#: ee1c37013e444dcfb40e2187c7978e25
 msgid "The node being bootstrapped then attempts to download the current State, as well as an initial list of peers from the bootstrap node."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:88
-#: a8412edfe60c4dd08aab114e309633c6
+#: 3d820fd1171e4e2fb6c6241d874574dd
 msgid "Once successfully bootstrapped, the node can then connect to peers, discover the rest of the network, and process live incoming blocks to keep its state up to date."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:91
-#: e1265abdeaa64b3fa3ea3f624d4b352d
+#: 3a355bbf3e9e4cad97ce8e4232b691e7
 msgid "In Massa, the hash of the state is used as part of the proof-of-stake seed, which is a safety mechanism against malicious bootstrap nodes sending a compromised State. It ensures that nodes with an altered State eventually end up isolated from the real network because their proof-of-stake draws differ which causes them to discard incoming honest blocks. Note however that a PoS seed mismatch can take up to 2 cycles to be detected."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:96
-#: b3ceaf8000464b51bb84d3db6c794d4e
+#: 62a39a6d26a64ba79c061af4f4c4d81c
 msgid "In case of bootstrap failure, the bootstrapping node retries with another randomly chosen bootstrap node after a delay."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:99
-#: bd63b3792f964a7daeb9fb72d04ab9bb
+#: 6eb7d41c00b94b76abb723884cc838df
 msgid "Procedure from the point of view of the bootstrap node"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:101
-#: 9679240c567043908a438c572ce7cb42
+#: 7b8cfe3b83174f1fbf3bb4e69280e6f0
 msgid "Massa nodes can bootstrap other nodes, with certain limitations because the procedure is heavy for the bootstrap node."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:103
-#: 9def627762a54b6292a2b3b484d45d7d
+#: 373e266be47e48f5bf2faf2e8cd44322
 msgid "The bootstrap system listens on the address/port defined in `massa-node/base_config/config.toml` (section `bootstrap/bind`). The node's bootstrap server can be disabled by removing the `bind` entry from the config file."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:106
-#: 73f0f695ef914a1e9f9d645224eeb00f
+#: 100a1b7d04a5488d95ffdf01515ed91d
 msgid "The Massa State is large (~1 terabyte in the worst case), and takes time to upload to bootstrapping nodes. During that time, new changes to the state continue to appear, so new changes affecting already-uploaded parts need to be sent on-the-fly."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:110
-#: e52907f1be03406882392a052ee81955
+#: 6f461e630cd44059ad64902d0f37a05c
 msgid "By default, Massa nodes only allow a whitelist of IP addresses to bootstrap from them. This list is present in the `massa-node/base_config/bootstrap_whitelist.json` file. This list is intended to prevent flooding attacks by attackers pretending to be bootstrapping, and also makes it more difficult for node runners to bootstrap from untrusted sources. If you wish to disable whitelisting and allow anyone to bootstrap from your node, simply delete the `bootstrap_whitelist.json` file and restart your node."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:116
-#: b339b05f67264666bf78989eccbe2a62
+#: 6db6cafc0f2f47948e0e1d6e382ccf8b
 msgid "A complementary `bootstrap_blacklist.json` (absent by default) can also be created alongside `bootstrap_whitelist.json` (and following the same syntax) in order to explicitly prevent certain IP addresses from bootstrapping from the node."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:119
-#: 5a33666e06b442d4b5f6a53c3890b4d6
+#: 35b96cb023f54ff497e28b04f0e463a9
 msgid "Once a node has accepted to bootstrap an incoming node, it adds the incoming node's IP address to a local cache preventing that IP from bootstrapping again for a time defined in `massa-node/base_config/config.toml` (section `bootstrap/per_ip_min_interval`) by refusing subsequent connections from that IP during the config-defined delay. The exclusion delay is not extended if the remote IP attempts new connections during the exclusion delay. The exclusion delay is however applied if the bootstrap was accepted but failed for any reason. This aims at limiting the load on individual bootstrap nodes, and spreading the load among bootstrap nodes."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:126
-#: e599abe5e5e048179c8c30af5b5e4913
+#: 91355b5d6252465bbce12e7017197ff9
 msgid "The number of nodes simultaneously bootstrapping from the local node is limited (`massa-node/base_config/config.toml` section `bootstrap/max_simultaneous_bootstraps`). Excess attempts are refused but do not trigger the exclusion delay mechanism."
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:131
-#: 9eeb460d7aa747db9da94e0a1b1b4775
+#: 20ba987cdd454a01905ff5d7ee720d45
 msgid "Future optimizations"
 msgstr ""
 
 #: ../../technical-doc/bootstrap.rst:133
-#: 9e35e3e458cb4d3288109785dfc6e27e
+#: 3a0c49071be2477a93e29b34a3a9eac0
 msgid "We plan to add the possibility to download bootstrap data from untrusted sources for load-balancing, but then check the hash of the obtained state from trusted sources, and only fallback to downloading everything from trusted sources if multiple bootstrap attempts from this hybrid approach fail."
 msgstr ""
